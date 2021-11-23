@@ -7,6 +7,7 @@
 
 #include <string>
 
+#include "Task.h"
 #include "spdlog/spdlog.h"
 
 void WebServer::init(int port) { port_ = port; }
@@ -31,17 +32,15 @@ void WebServer::eventListen() {
     while (true) {
         struct sockaddr_in conn_sock;
         socklen_t conn_sock_len = sizeof(conn_sock);
-        int conn_fd = accept(listen_fd_, (struct sockaddr *)&conn_sock, &conn_sock_len);
+        int conn_fd =
+            accept(listen_fd_, (struct sockaddr *)&conn_sock, &conn_sock_len);
         if (conn_fd < 0) {
             spdlog::error("accept error: errno is: {}", errno);
             continue;
         }
-
-        char buf[1024];
-        int sz = recv(conn_fd, buf, sizeof(buf), 0);
-        fmt::print("");
-
-        
+        spdlog::info("connect {}:{}", inet_ntoa(conn_sock.sin_addr),
+                     ntohs(conn_sock.sin_port));
+        Task::getInstance().handle(conn_fd);
     }
 }
 
