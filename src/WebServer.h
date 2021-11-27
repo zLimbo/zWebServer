@@ -10,9 +10,9 @@ public:
     void eventLoop();
 
 private:
-    int port_;
-    int listen_fd_;
-    int event_fd_;
+    int mPort;
+    int mListenFd;
+    int mEventFd;
 };
 
 #endif  // __WEBSERVER_H__

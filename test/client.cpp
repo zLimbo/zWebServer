@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
         if (0 == strncmp(buf, "Bye", 3)) {
             break;
         }
+        break;
     }
     close(client_fd);
 
