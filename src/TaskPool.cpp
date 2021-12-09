@@ -17,8 +17,7 @@ void TaskPool::handleRequest(int clientFd) {
 
     char buf[1024];
     int sz = read(clientFd, buf, sizeof(buf));
-    spdlog::info("thread {} read from {}({} bytes): {}", currentThreadId,
-                 clientFd, sz, buf);
+    spdlog::info("thread {} read from {}({} bytes): {}", currentThreadId, clientFd, sz, buf);
     write(clientFd, buf, strlen(buf) + 1);
     close(clientFd);
     spdlog::info("thread {} handle over", currentThreadId);
@@ -32,22 +31,24 @@ void TaskPool::init(int threadNum) {
 }
 
 void TaskPool::run() {
-    int clientFd = -1;
-    {
-        std::unique_lock lock(mMutex);
-        mCv.wait(lock, [&]() {
-            bool canRun = !mRequestQueue.empty();
-            return canRun;
-        });
-        clientFd = mRequestQueue.front();
-        mRequestQueue.pop();
+    while (true) {
+        int clientFd = -1;
+        {
+            std::unique_lock lock(mMutex);
+            mCv.wait(lock, [&]() {
+                bool canRun = !mRequestQueue.empty();
+                return canRun;
+            });
+            clientFd = mRequestQueue.front();
+            mRequestQueue.pop();
+        }
+        handleRequest(clientFd);
     }
-    handleRequest(clientFd);
 }
 
 void TaskPool::addTask(int clientFd) {
     std::unique_lock lock(mMutex);
     mRequestQueue.push(clientFd);
-    spdlog::info("add task and notify all thread");
-    mCv.notify_all();
+    spdlog::info("add task and notify one thread");
+    mCv.notify_one();
 }

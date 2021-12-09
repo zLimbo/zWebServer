@@ -51,4 +51,4 @@ tmp/
 .DS_Store
 
 # others
-.clang-format
+# .clang-format

@@ -40,10 +40,10 @@ int main(int argc, char **argv) {
 
                 std::string text = std::string("client ") + std::to_string(i);
                 spdlog::info("connect success! send text: {}", text);
-                ret = write(clientFd, text.c_str(), text.size() + 1);
-                char response[1024];
-                ret = read(clientFd, response, sizeof(response));
-                spdlog::info("server response: {}", response);
+                ret = write(clientFd, text.c_str(), text.size());
+                // char response[1024];
+                // ret = read(clientFd, response, sizeof(response));
+                // spdlog::info("server response: {}", response);
                 close(clientFd);
             },
             i);
