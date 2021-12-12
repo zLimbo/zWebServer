@@ -18,10 +18,12 @@ public:
                     std::function<void()> task;
                     {
                         std::unique_lock<std::mutex> locker(mMutex);
-                        mCv.wait(locker, [this] { return mClose || !mTaskQueue.empty(); });
+                        mCv.wait(locker, [this] {
+                            return mClose || !mTaskQueue.empty();
+                        });
                         if (mClose && mTaskQueue.empty()) {
-                            std::cout << "thread " << std::this_thread::get_id() << " exit."
-                                      << std::endl;
+                            std::cout << "thread " << std::this_thread::get_id()
+                                      << " exit." << std::endl;
                             return;
                         }
                         task = std::move(mTaskQueue.front());

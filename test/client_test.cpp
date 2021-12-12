@@ -4,10 +4,12 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include <algorithm>
 #include <cassert>
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <vector>
 
 int main(int argc, char **argv) {
     assert(argc >= 3);

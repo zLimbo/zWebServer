@@ -1,3 +1,4 @@
+message("\n===== [CMakeLists.txt] start")
 cmake_minimum_required(VERSION 3.5)
 set(CMAKE_TOOLCHAIN_FILE "/home/z/z/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
@@ -19,13 +20,12 @@ project(zws VERSION "1.0.0")
 #     src/common.h
 # )
 
-aux_source_directory(src SOURCES)
+message("PROJECT_NAME: " ${PROJECT_NAME})
+message("PROJECT_SOURCE_DIR: " ${PROJECT_SOURCE_DIR})
+message("PROJECT_BINARY_DIR: " ${PROJECT_BINARY_DIR})
+message("CMAKE_CXX_STANDARD: " ${CMAKE_CXX_STANDARD})
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_subdirectory(src)
+add_subdirectory(test)
 
-find_package(spdlog CONFIG REQUIRED)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-    spdlog::spdlog spdlog::spdlog_header_only 
-    pthread
-)
+message("===== [CMakeLists.txt] end\n")
