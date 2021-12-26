@@ -17,12 +17,15 @@ foreach (TEST_FILE ${ALL_TEST_SRC})
     get_filename_component(TEST_FILE_NAME ${TEST_FILE} NAME_WE)
     message("Build ${TEST_FILE_NAME} according to ${TEST_FILE}")
     add_executable(${TEST_FILE_NAME} ${TEST_FILE})
+    target_include_directories(${TEST_FILE_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
+
     target_link_libraries(${TEST_FILE_NAME} PRIVATE 
         pthread
+        mysqlclient
         spdlog::spdlog spdlog::spdlog_header_only 
         GTest::gmock GTest::gmock_main GTest::gtest_main
     )
-    target_include_directories(${TEST_FILE_NAME} PRIVATE ${PROJECT_SOURCE_DIR})
+    
 endforeach(TEST_FILE)
 
 message("===== [test/CMakeLists.txt] end\n")

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_TOOLCHAIN_FILE "/home/z/z/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_BUILD_TYPE "Debug")
 # set(CMAKE_CXX_FLAGS "-g -Wall -pthread")
 
 project(zws VERSION "1.0.0")
@@ -27,5 +28,6 @@ message("CMAKE_CXX_STANDARD: " ${CMAKE_CXX_STANDARD})
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(study)
 
 message("===== [CMakeLists.txt] end\n")
